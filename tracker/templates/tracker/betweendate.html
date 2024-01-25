@@ -1,0 +1,70 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Records Between 2 Dates</title>
+</head>
+
+<body>
+    <center>
+        <h1>Search record between 2 given Dates</h1>
+        <form method="POST">
+            {% csrf_token %}
+            From : <input type="date" name="fromdate" />
+
+            To : <input type="date" name="todate" />
+            <input type="submit" value="search" />
+            <hr />
+            <table border="1">
+                <tr>
+                    <th>Sno</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Created at</th>
+                    <th>Image</th>
+
+
+
+                </tr>
+                {% for i in searchresult %}
+
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{i.name}}</td>
+                    <td>{{i.price}}</td>
+                    <td>{{i.created_at}}</td>
+                    <td>{% if i.image %}
+                        <img src="{{i.image.url}}" width="100px" height="100px" />
+                        {% endif %}
+                        <br>
+                        <form action="{% url 'tracker:delete' i.id%}">
+                            <input type="submit" value="Delete Task" id="delete{{forloop.counter}}" />
+                            <br>
+                        </form>
+                        <form action="{% url 'tracker:update' i.id%}">
+                            <input type="submit" value="Edit" id="edit{{forloop.counter}}" />
+                        </form>
+                    </td>
+                    <td>{{i.categories}}</td>
+                   
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </center>
+    <br><br><br>
+    <form action="{% url 'tracker:items'%}">
+        <button class="button button5">Homepage</button>
+    </form>
+</body>
+
+</html>
+</body>
+
+
+</html>

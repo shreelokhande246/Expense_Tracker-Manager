@@ -1,0 +1,61 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}" />
+<!DOCTYPE html>
+<html lang="en" style="background-color: #adadca;">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="    padding-top: 20px;
+padding-bottom: 50px;
+background-color: #462f79;">
+<!-- table with elements in a loop --->
+<table class="table table-dark table-striped">
+    <th>Sno</th>    
+    <th>Name</th>
+    <th>Price</th>
+    <th>Created at</th>
+    <th>Image</th>
+    {% for i in items %}
+    <tr style="background-color:#a8e9d9 ;">
+        <td>{{forloop.counter}}</td>  
+        <td>{{i.name}}</td>
+        <td>{{i.price}}</td>
+        <td>{{i.created_at}}</td>
+        <td>
+            {% if i.image %}
+            <img src="{{i.image.url}}" width="100px" height="100px"/>
+            {%endif%}
+        <br>
+    <form action="{% url 'tracker:delete' i.id%}">
+    <input style="margin: 2px 2px;" type="submit" value="Delete Task" id="delete{{forloop.counter}}"/>
+    <br>
+    </form>
+    <form action="{% url 'tracker:update' i.id%}">
+    <input type="submit" value="Edit" id="edit{{forloop.counter}}" />
+    </form></td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- table with elements in a loop --->
+<p style="color: white;">The total sum is <u style="color: white;"> <strong style=" color: white; background-color: #9b3a60 ; border: 3px solid black; border-radius: 6px;"> {{sum}}</strong></u></p>
+
+
+
+<!-- All filters --->
+<form action="{% url 'tracker:items'%}">
+    <button type="submit" class="button button1" >Add Items</button>
+</form>
+<form action="{% url 'tracker:sprice'%}">
+    <button class="button button5">Sort by price</button>
+</form>
+ <form action="{% url 'tracker:sname'%}">
+    <button class="button button5">Sort by name</button>
+</form>
+ <form action="{% url 'tracker:sdate'%}">
+     <button class="button button5">Sort by Date</button>
+ </form>
+<!-- end filters --->
+</body>
+</html>

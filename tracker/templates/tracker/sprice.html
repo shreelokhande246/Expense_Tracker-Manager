@@ -1,0 +1,43 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sort by price</title>
+</head>
+<body>
+<!-- table with elements in a loop --->
+<table>
+    <th>Sno</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Created at</th>
+    <th>Image</th>
+    {% for i in price %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.name}}</td>
+        <td>{{i.price}}</td>
+        <td>{{i.created_at}}</td>
+        <td>{% if i.image %}
+            <img src="{{i.image.url}}" width="100px" height="100px"/>
+            {% endif %}
+        <br>
+    <form action="{% url 'tracker:delete' i.id%}">
+    <input type="submit" value="Delete Task" id="delete{{forloop.counter}}"/>
+    <br>
+    </form>
+    <form action="{% url 'tracker:update' i.id%}">
+    <input type="submit" value="Edit" id="edit{{forloop.counter}}"/>
+    </form></td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- table with elements in a loop --->
+<br><br><br>
+<form action="{% url 'tracker:items'%}">
+    <button class="button button5">Homepage</button>
+</form>
+</body>
+</html>
